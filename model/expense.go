@@ -16,6 +16,7 @@ type Expense struct {
 }
 
 
+//SaveExpense - handler to save expenses
 func SaveExpense(expenseObject Expense) (error){
 	session, err := mgo.Dial("127.0.0.1")
 	if err != nil {
