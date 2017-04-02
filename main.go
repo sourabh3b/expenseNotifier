@@ -9,5 +9,6 @@ import (
 func main() {
 	fmt.Println("Started expense notifier....")
 	http.HandleFunc("/getExpense", handler.GetExpense)
-	http.ListenAndServe(":8080", nil)
+	http.HandleFunc("/saveExpense", handler.GetExpense)
+	http.ListenAndServe(":9753", nil)
 }

@@ -1,6 +1,11 @@
 package model
 
-import "time"
+import(
+	"errors"
+	"fmt"
+	"time"
+	"gopkg.in/mgo.v2"
+)
 
 //Expense - data model
 type Expense struct {
@@ -10,3 +15,23 @@ type Expense struct {
 	Total       float32   `bson:"total" json:"total"`
 }
 
+
+func SaveExpense(expenseObject Expense) (error){
+	session, err := mgo.Dial("127.0.0.1")
+	if err != nil {
+		fmt.Println("Mongo error", err.Error())
+		return errors.New("Mongo connection Error "+ err.Error())
+	}
+
+	defer session.Close()
+
+	// Collection Expense
+	c := session.DB("test").C("Expense")
+
+	err = c.Insert(expenseObject)
+	if err != nil {
+		fmt.Println("DB insert error", err.Error())
+		return errors.New("Cannot insert data into DB "+ err.Error())
+	}
+	return err
+}
