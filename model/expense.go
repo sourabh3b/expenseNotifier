@@ -9,3 +9,4 @@ type Expense struct {
 	IsLunch     bool      `bson:"isLunch" json:"isLunch"`
 	Total       float32   `bson:"total" json:"total"`
 }
+
