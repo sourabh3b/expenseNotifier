@@ -9,7 +9,6 @@ import(
 
 //Expense - data model
 type Expense struct {
-	ID          string    `bson:"_id" json:"id"`
 	ExpenseTime time.Time `bson:"expenseTime" json:"expenseTime"`
 	IsLunch     bool      `bson:"isLunch" json:"isLunch"`
 	Total       float32   `bson:"total" json:"total"`
@@ -29,6 +28,7 @@ func SaveExpense(expenseObject Expense) (error){
 	// Collection Expense
 	c := session.DB("test").C("Expense")
 
+	expenseObject.ExpenseTime = time.Now()
 	err = c.Insert(expenseObject)
 	if err != nil {
 		fmt.Println("DB insert error", err.Error())

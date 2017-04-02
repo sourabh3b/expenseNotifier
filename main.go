@@ -21,10 +21,13 @@ func SaveExpense(w http.ResponseWriter, r *http.Request){
 
 	err = model.SaveExpense(inputExpense)
 	if err != nil {
-		fmt.Println("Cannot find expense ", err.Error())
-		render.JSON(w, http.StatusOK, "Saved Expense " + inputExpense.ID)
+		fmt.Println("Cannot Save expense ", err.Error())
+		render.JSON(w, http.StatusBadGateway, "Saved Expense ")
 		return
 	}
+		fmt.Println("Saved expense ")
+		render.JSON(w, http.StatusOK, "Saved Expense :")
+		return
 }
 func main() {
 	fmt.Println("Started expense notifier....")
