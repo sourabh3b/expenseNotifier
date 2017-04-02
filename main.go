@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"expenseNotifier/handler"
+	"github.com/sourabhbhagat/expenseNotifier/handler"
 )
 
 func main() {
