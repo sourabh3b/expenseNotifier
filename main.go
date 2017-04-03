@@ -1,21 +1,21 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
-	"net/http"
 	"github.com/sourabhbhagat/expenseNotifier/model"
 	"github.com/unrolled/render"
-	"encoding/json"
+	"net/http"
 )
 
 //SaveExpense -  saves expense
-func SaveExpense(w http.ResponseWriter, r *http.Request){
+func SaveExpense(w http.ResponseWriter, r *http.Request) {
 	render := render.New()
 	inputExpense := model.Expense{}
 	err := json.NewDecoder(r.Body).Decode(&inputExpense)
 	if err != nil {
 		fmt.Println("Cannot decode expense ", err.Error())
-		render.JSON(w, http.StatusBadRequest, "Cannot find respose Error : "+ err.Error())
+		render.JSON(w, http.StatusBadRequest, "Cannot find respose Error : "+err.Error())
 		return
 	}
 
@@ -25,9 +25,9 @@ func SaveExpense(w http.ResponseWriter, r *http.Request){
 		render.JSON(w, http.StatusBadGateway, "Saved Expense ")
 		return
 	}
-		fmt.Println("Saved expense ")
-		render.JSON(w, http.StatusOK, "Saved Expense :")
-		return
+	fmt.Println("Saved expense ")
+	render.JSON(w, http.StatusOK, "Saved Expense :")
+	return
 }
 func main() {
 	fmt.Println("Started expense notifier....")
