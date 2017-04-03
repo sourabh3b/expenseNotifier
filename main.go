@@ -19,7 +19,7 @@ func SaveExpense(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = model.SaveExpense(inputExpense)
+	_,err = model.SaveExpense(inputExpense)
 	if err != nil {
 		fmt.Println("Cannot Save expense ", err.Error())
 		render.JSON(w, http.StatusBadGateway, "Saved Expense ")

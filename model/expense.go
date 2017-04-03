@@ -17,11 +17,11 @@ type Expense struct {
 }
 
 //SaveExpense - handler to save expenses
-func SaveExpense(expenseObject Expense) error {
+func SaveExpense(expenseObject Expense) (Expense,error) {
 	session, err := mgo.Dial("127.0.0.1")
 	if err != nil {
 		fmt.Println("Mongo error", err.Error())
-		return errors.New("Mongo connection Error " + err.Error())
+		return expenseObject, errors.New("Mongo connection Error " + err.Error())
 	}
 
 	defer session.Close()
@@ -43,7 +43,7 @@ func SaveExpense(expenseObject Expense) error {
 	err = c.Insert(expenseObject)
 	if err != nil {
 		fmt.Println("DB insert error", err.Error())
-		return errors.New("Cannot insert data into DB " + err.Error())
+		return expenseObject, errors.New("Cannot insert data into DB " + err.Error())
 	}
-	return err
+	return expenseObject, err
 }

@@ -8,9 +8,12 @@ func TestSaveExpense(t *testing.T) {
 		exp := Expense{
 			IsLunch: true,
 		}
-		err := SaveExpense(exp)
+		respExp, err := SaveExpense(exp)
 		Convey("Error should be nil",func(){
 			So(err, ShouldBeNil)
+		})
+		Convey("Response Expense Currency value",func(){
+			So(respExp.Currency, ShouldEqual,"INR")
 		})
 	})
 }
