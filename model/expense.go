@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 	"time"
 )
 
@@ -16,7 +17,7 @@ type Expense struct {
 	Place       string    `bson:"place" json:"place"`
 }
 
-//SaveExpense - handler to save expenses
+//SaveExpense - funtion to save expenses
 func SaveExpense(expenseObject Expense) (Expense,error) {
 	session, err := mgo.Dial("127.0.0.1")
 	if err != nil {
@@ -45,5 +46,26 @@ func SaveExpense(expenseObject Expense) (Expense,error) {
 		fmt.Println("DB insert error", err.Error())
 		return expenseObject, errors.New("Cannot insert data into DB " + err.Error())
 	}
+	return expenseObject, err
+}
+
+//GetExpense - handler to get expenses
+func GetExpense(expenseID string) (Expense,error) {
+	expenseObject := Expense{}
+	session, err := mgo.Dial("127.0.0.1")
+	if err != nil {
+		fmt.Println("Mongo error", err.Error())
+		return expenseObject, errors.New("Mongo connection Error " + err.Error())
+	}
+
+	defer session.Close()
+
+	// Collection Expense
+	err = session.DB("test").C("Expense").Find(bson.M{"_id": expenseID}).One(&expenseObject)
+	if err != nil {
+		fmt.Println("Unable to find expense by ID", err.Error())
+		return expenseObject, errors.New("Unable to find expense by ID " + err.Error())
+	}
+
 	return expenseObject, err
 }
